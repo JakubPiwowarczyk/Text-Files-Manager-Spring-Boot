@@ -11,8 +11,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @Column(unique = true)
     private String email;
+    @Column(unique = true)
     private String nickname;
+    @Column(nullable = false)
     private String password;
 
     public User() {
