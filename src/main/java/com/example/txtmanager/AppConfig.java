@@ -28,6 +28,7 @@ public class AppConfig {
             );
 
             userRepository.saveAll(List.of(user1, user2));
+            //System.out.println("test test "+userRepository.findById(user1.getId()).get().equals(user1));
 
             TextFile txt1 = new TextFile(
                     "myTxt",
@@ -43,8 +44,8 @@ public class AppConfig {
 
             fileRepository.saveAll(List.of(txt1, txt2));
 
-            System.out.println(fileRepository.findAllByOwnerId(user1.getId()));
-            System.out.println(fileRepository.findAllByOwnerId(user2.getId()));
+            //System.out.println(fileRepository.findAllByOwnerId(user1.getId()));
+           // System.out.println(fileRepository.findAllByOwnerId(user2.getId()));
         };
     }
 }
