@@ -3,6 +3,7 @@ package com.example.txtmanager.textfile;
 import com.example.txtmanager.user.User;
 import jakarta.persistence.*;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -64,6 +65,19 @@ public class TextFile {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TextFile textFile = (TextFile) o;
+        return Objects.equals(id, textFile.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
