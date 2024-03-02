@@ -46,14 +46,14 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void findByEmail_ShouldReturnNull_WhenUserDoesNotExists() {
+    public void findByEmail_ShouldReturnEmptyOptional_WhenUserDoesNotExists() {
         // given
         String email = "john.doe@gmail.com";
 
         // when
-        User foundUser = userRepository.findByEmail(email).orElse(null);
+        boolean wasUserFound = userRepository.findByEmail(email).isPresent();
 
         // then
-        assertThat(foundUser).isNull();
+        assertThat(wasUserFound).isFalse();
     }
 }
