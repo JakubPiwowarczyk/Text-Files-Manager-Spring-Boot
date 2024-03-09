@@ -54,14 +54,17 @@ public class UserService {
         String password = userToRegister.password();
 
         User user = new User(email, nickname, password);
+        userRepository.save(user);
+
+        Path path = Path.of(FILE_DATABASE_PATH + "/" + nickname);
 
         try {
-            Files.createDirectory(Path.of(FILE_DATABASE_PATH + "/" + nickname));
+            Files.createDirectory(path);
         } catch (IOException e) {
+            userRepository.delete(user);
             return false;
         }
 
-        userRepository.save(user);
         return true;
     }
 
