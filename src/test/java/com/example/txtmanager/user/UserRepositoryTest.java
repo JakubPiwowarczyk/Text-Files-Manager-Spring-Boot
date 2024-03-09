@@ -93,4 +93,64 @@ public class UserRepositoryTest {
         // then
         assertThat(wasUserFound).isFalse();
     }
+
+    @Test
+    public void existsByEmail_ShouldReturnTrue_WhenUserExists() {
+        // given
+        String email = "john.doe@gmail.com";
+        User user = new User(
+                email,
+                "JohnDoe",
+                "johnny321"
+        );
+        userRepository.save(user);
+
+        // when
+        boolean doesUserExists = userRepository.existsByEmail(email);
+
+        // then
+        assertThat(doesUserExists).isTrue();
+    }
+
+    @Test
+    public void existsByEmail_ShouldReturnFalse_WhenUserDoesNotExists() {
+        // given
+        String email = "john.doe@gmail.com";
+
+        // when
+        boolean doesUserExists = userRepository.existsByEmail(email);
+
+        // then
+        assertThat(doesUserExists).isFalse();
+    }
+
+    @Test
+    public void existsByNickname_ShouldReturnTrue_WhenUserExists() {
+        // given
+        String nickname = "JohnDoe";
+        User user = new User(
+                "john.doe@gmail.com",
+                nickname,
+                "johnny321"
+        );
+        userRepository.save(user);
+
+        // when
+        boolean doesUserExists = userRepository.existsByNickname(nickname);
+
+        // then
+        assertThat(doesUserExists).isTrue();
+    }
+
+    @Test
+    public void existsByNickname_ShouldReturnFalse_WhenUserDoesNotExists() {
+        // given
+        String nickname = "JohnDoe";
+
+        // when
+        boolean doesUserExists = userRepository.existsByNickname(nickname);
+
+        // then
+        assertThat(doesUserExists).isFalse();
+    }
 }
