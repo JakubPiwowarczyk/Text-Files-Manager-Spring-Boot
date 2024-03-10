@@ -18,10 +18,12 @@ public class UserService {
     private String FILE_DATABASE_PATH;
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     public List<User> getAllUsers() {
@@ -49,14 +51,10 @@ public class UserService {
     }
 
     public boolean registerUser(UserRegisterDTO userToRegister) {
-        String email = userToRegister.email();
-        String nickname = userToRegister.nickname();
-        String password = userToRegister.password();
-
-        User user = new User(email, nickname, password);
+        User user = userMapper.toUser(userToRegister);
         userRepository.save(user);
 
-        Path path = Path.of(FILE_DATABASE_PATH + "/" + nickname);
+        Path path = Path.of(FILE_DATABASE_PATH + "/" + user.getNickname());
 
         try {
             Files.createDirectory(path);
