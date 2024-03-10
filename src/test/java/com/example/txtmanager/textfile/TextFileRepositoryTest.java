@@ -15,9 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 class TextFileRepositoryTest {
 
     @Autowired
-    private TextFileRepository fileRepository;
+    TextFileRepository fileRepository;
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
 
     @AfterEach
     void tearDown() {
@@ -26,7 +26,7 @@ class TextFileRepositoryTest {
     }
 
     @Test
-    public void findAllByOwnerId_ShouldReturnListOfTextFilesOwnedByUser() {
+    void findAllByOwnerId_ShouldReturnListOfTextFilesOwnedByUser() {
         // given
         User user = new User(
                 "john.doe@gmail.com",

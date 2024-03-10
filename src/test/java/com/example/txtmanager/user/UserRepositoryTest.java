@@ -13,15 +13,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class UserRepositoryTest {
 
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         userRepository.deleteAll();
     }
 
     @Test
-    public void findByEmail_ShouldReturnUser_WhenUserExists() {
+    void findByEmail_ShouldReturnUser_WhenUserExists() {
         // given
         String email = "john.doe@gmail.com";
         User user1 = new User(
@@ -46,7 +46,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void findByEmail_ShouldReturnEmptyOptional_WhenUserDoesNotExists() {
+    void findByEmail_ShouldReturnEmptyOptional_WhenUserDoesNotExists() {
         // given
         String email = "john.doe@gmail.com";
 
@@ -58,7 +58,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void findByNickname_ShouldReturnUser_WhenUserExists() {
+    void findByNickname_ShouldReturnUser_WhenUserExists() {
         // given
         String nickname = "JohnDoe";
         User user1 = new User(
@@ -83,7 +83,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void findByNickname_ShouldReturnEmptyOptional_WhenUserDoesNotExists() {
+    void findByNickname_ShouldReturnEmptyOptional_WhenUserDoesNotExists() {
         // given
         String nickname = "JohnDoe";
 
@@ -95,7 +95,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void existsByEmail_ShouldReturnTrue_WhenUserExists() {
+    void existsByEmail_ShouldReturnTrue_WhenUserExists() {
         // given
         String email = "john.doe@gmail.com";
         User user = new User(
@@ -113,7 +113,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void existsByEmail_ShouldReturnFalse_WhenUserDoesNotExists() {
+    void existsByEmail_ShouldReturnFalse_WhenUserDoesNotExists() {
         // given
         String email = "john.doe@gmail.com";
 
@@ -125,7 +125,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void existsByNickname_ShouldReturnTrue_WhenUserExists() {
+    void existsByNickname_ShouldReturnTrue_WhenUserExists() {
         // given
         String nickname = "JohnDoe";
         User user = new User(
@@ -143,7 +143,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void existsByNickname_ShouldReturnFalse_WhenUserDoesNotExists() {
+    void existsByNickname_ShouldReturnFalse_WhenUserDoesNotExists() {
         // given
         String nickname = "JohnDoe";
 
