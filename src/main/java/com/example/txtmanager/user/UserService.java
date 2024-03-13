@@ -1,12 +1,10 @@
 package com.example.txtmanager.user;
 
+import com.example.txtmanager.filedb.FileDatabaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,15 +12,16 @@ import java.util.UUID;
 @Service
 public class UserService {
 
-    @Value("${file-database.path}")
-    private String FILE_DATABASE_PATH;
-
     private final UserRepository userRepository;
+    private final FileDatabaseRepository fileDatabaseRepository;
     private final UserMapper userMapper;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository,
+                       FileDatabaseRepository fileDatabaseRepository,
+                       UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.fileDatabaseRepository = fileDatabaseRepository;
         this.userMapper = userMapper;
     }
 
@@ -50,18 +49,11 @@ public class UserService {
         return userRepository.existsByNickname(nickname);
     }
 
-    public boolean registerUser(UserRegisterDTO userToRegister) {
+    public boolean registerUser(UserRegisterDTO userToRegister) throws IOException {
         User user = userMapper.toUser(userToRegister);
         userRepository.save(user);
 
-        Path path = Path.of(FILE_DATABASE_PATH + "/" + user.getNickname());
-
-        try {
-            Files.createDirectory(path);
-        } catch (IOException e) {
-            userRepository.delete(user);
-            return false;
-        }
+        fileDatabaseRepository.createUserDir(user.getNickname());
 
         return true;
     }
