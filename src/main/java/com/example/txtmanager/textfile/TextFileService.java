@@ -1,44 +1,34 @@
 package com.example.txtmanager.textfile;
 
-import com.example.txtmanager.user.User;
+import com.example.txtmanager.filedb.FileDatabaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 @Service
 public class TextFileService {
 
-    @Value("${file-database.path}")
-    private String FILE_DATABASE_PATH;
     private final TextFileRepository fileRepository;
+    private final FileDatabaseRepository fileDatabaseRepository;
+    private final TextFileMapper fileMapper;
 
     @Autowired
-    public TextFileService(TextFileRepository fileRepository) {
+    public TextFileService(TextFileRepository fileRepository,
+                            FileDatabaseRepository fileDatabaseRepository,
+                            TextFileMapper fileMapper) {
         this.fileRepository = fileRepository;
+        this.fileDatabaseRepository = fileDatabaseRepository;
+        this.fileMapper = fileMapper;
     }
 
-    public boolean createTextFile(TextFileDTO fileDTO) {
-        String name = fileDTO.name();
-        boolean isPrivate = fileDTO.isPrivate();
-        User owner = fileDTO.owner();
-        String content = fileDTO.content();
+    public boolean createTextFile(TextFileDTO fileDTO) throws IOException {
+        TextFile textFile = fileMapper.toTextFile(fileDTO);
+        fileRepository.save(textFile);
 
-        TextFile file = new TextFile(name, isPrivate, owner);
-        fileRepository.save(file);
+        fileDatabaseRepository.createFile(fileDTO);
 
-        Path path = Path.of(FILE_DATABASE_PATH + "/" + file.getName());
-
-        try {
-            Files.writeString(path, content);
-        } catch (IOException e) {
-            fileRepository.delete(file);
-            return false;
-        }
-
+        //TODO should return TextFileDto based on created textfile 
         return true;
     }
 }
